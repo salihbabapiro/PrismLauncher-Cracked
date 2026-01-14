@@ -147,12 +147,12 @@ void AccountListPage::on_actionAddOffline_triggered()
                                 "<br><br>"
                                 "If you have lost your account you can contact Microsoft for support."));
         return;
-    }
+    }*/
 
     ChooseOfflineNameDialog dialog(tr("Please enter your desired username to add your offline account."), this);
     if (dialog.exec() != QDialog::Accepted) {
         return;
-    } */ //disablin' the microsoft crap gang
+    }
 
     if (const MinecraftAccountPtr account = MinecraftAccount::createOffline(dialog.getUsername())) {
         account->login()->start();  // The task will complete here.
