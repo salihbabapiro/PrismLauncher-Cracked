@@ -436,17 +436,32 @@ elseif(UNIX)
     set(LIBRARY_DEST_DIR "lib${LIB_SUFFIX}")
     set(JARS_DEST_DIR "share/${Launcher_Name}")
 
-    # Set RPATH
     SET(Launcher_BINARY_RPATH "$ORIGIN/")
 
-    # --- FIX START: Manually set variables to prevent build error ---
     set(Launcher_AppID "org.prismlauncher.PrismLauncher")
     set(Launcher_Desktop "${Launcher_AppID}.desktop")
     set(Launcher_MetaInfo "${Launcher_AppID}.metainfo.xml")
+
+    set(Launcher_Name "prismlauncher")
+    set(Launcher_DisplayName "Prism Launcher")
+    set(Launcher_Description "A custom launcher for Minecraft that allows you to easily manage multiple installations of Minecraft at once.")
+    set(Launcher_Copyright "Prism Launcher Contributors")
+
     set(Launcher_SVG "program_info/org.prismlauncher.PrismLauncher.Source.svg")
     set(Launcher_PNG_256 "program_info/logo-256.png")
     set(Launcher_mrpack_MIMEInfo "program_info/modrinth-mrpack-mime.xml")
-    # --- FIX END ---
+
+    configure_file(
+        "${CMAKE_CURRENT_SOURCE_DIR}/program_info/org.prismlauncher.PrismLauncher.desktop.in"
+        "${CMAKE_CURRENT_BINARY_DIR}/${Launcher_Desktop}"
+        @ONLY
+    )
+
+    configure_file(
+        "${CMAKE_CURRENT_SOURCE_DIR}/program_info/org.prismlauncher.PrismLauncher.metainfo.xml.in"
+        "${CMAKE_CURRENT_BINARY_DIR}/${Launcher_MetaInfo}"
+        @ONLY
+    )
 
     install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${Launcher_Desktop} DESTINATION ${KDE_INSTALL_APPDIR})
     install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${Launcher_MetaInfo} DESTINATION ${KDE_INSTALL_METAINFODIR})
@@ -464,7 +479,6 @@ elseif(UNIX)
         install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${Launcher_ManPage} DESTINATION "${KDE_INSTALL_MANDIR}/man6")
     endif()
 
-    # Install basic runner script if component "portable" is selected
     configure_file(launcher/Launcher.in "${CMAKE_CURRENT_BINARY_DIR}/LauncherScript" @ONLY)
     install(PROGRAMS "${CMAKE_CURRENT_BINARY_DIR}/LauncherScript" DESTINATION "." RENAME ${Launcher_Name} COMPONENT portable EXCLUDE_FROM_ALL)
 
