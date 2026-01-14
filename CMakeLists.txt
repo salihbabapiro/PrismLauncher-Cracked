@@ -463,14 +463,29 @@ elseif(UNIX)
         @ONLY
     )
 
+    # Standart Linux kurulum yolları
     install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${Launcher_Desktop} DESTINATION ${KDE_INSTALL_APPDIR})
     install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${Launcher_MetaInfo} DESTINATION ${KDE_INSTALL_METAINFODIR})
     install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/${Launcher_SVG} DESTINATION "${KDE_INSTALL_ICONDIR}/hicolor/scalable/apps")
     install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/${Launcher_PNG_256} DESTINATION "${KDE_INSTALL_ICONDIR}/hicolor/256x256/apps" RENAME "${Launcher_AppID}.png")
     install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/${Launcher_mrpack_MIMEInfo} DESTINATION ${KDE_INSTALL_MIMEDIR})
 
+    # --- APPIMAGE KESİN ÇÖZÜM ---
+    # AppImage aracı sembolik linkleri sevmeyebilir veya isim karmaşası yaşıyor.
+    # Dosyanın GERÇEK kopyasını her ihtimale karşı tüm isimlerle kök dizine atıyoruz.
+    
+    # 1. Tam AppID ismiyle (En önemlisi bu, çünkü .desktop dosyası bunu ister)
+    install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/${Launcher_PNG_256} DESTINATION "." RENAME "${Launcher_AppID}.png")
+    
+    # 2. Binary ismiyle (Küçük harf)
+    install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/${Launcher_PNG_256} DESTINATION "." RENAME "prismlauncher.png")
+    
+    # 3. Kısa ID ile
     install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/${Launcher_PNG_256} DESTINATION "." RENAME "org.prismlauncher.png")
+    
+    # 4. Klasik isimle
     install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/${Launcher_PNG_256} DESTINATION "." RENAME "PrismLauncher.png")
+    # ---------------------------
 
     install(FILES "${CMAKE_CURRENT_SOURCE_DIR}/launcher/qtlogging.ini" DESTINATION "share/${Launcher_Name}")
 
