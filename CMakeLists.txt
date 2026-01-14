@@ -439,6 +439,15 @@ elseif(UNIX)
     # Set RPATH
     SET(Launcher_BINARY_RPATH "$ORIGIN/")
 
+    # --- FIX START: Manually set variables to prevent build error ---
+    set(Launcher_AppID "org.prismlauncher.PrismLauncher")
+    set(Launcher_Desktop "${Launcher_AppID}.desktop")
+    set(Launcher_MetaInfo "${Launcher_AppID}.metainfo.xml")
+    set(Launcher_SVG "program_info/org.prismlauncher.PrismLauncher.Source.svg")
+    set(Launcher_PNG_256 "program_info/logo-256.png")
+    set(Launcher_mrpack_MIMEInfo "program_info/modrinth-mrpack-mime.xml")
+    # --- FIX END ---
+
     install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${Launcher_Desktop} DESTINATION ${KDE_INSTALL_APPDIR})
     install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${Launcher_MetaInfo} DESTINATION ${KDE_INSTALL_METAINFODIR})
     install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/${Launcher_SVG} DESTINATION "${KDE_INSTALL_ICONDIR}/hicolor/scalable/apps")
